@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Numerics;
+using System.Text;
 
 namespace big_numbers
 {
@@ -7,6 +8,7 @@ namespace big_numbers
 	{
 		private BigInteger _numerator;
 		private BigInteger _denominator;
+        public int Precision { get; set; }
 
 		public BigInteger Denominator
 		{ 
@@ -15,9 +17,8 @@ namespace big_numbers
 			{ 
 				if (value == 0)
 					throw new ArgumentException ();
-				else
-					_denominator = value;
-				CutFraction ();
+			    _denominator = value;
+			    CutFraction ();
 			} 
 		}
 
@@ -36,8 +37,9 @@ namespace big_numbers
 
 		public LargeNumber (BigInteger numerator, BigInteger denominator)
 		{
+			_numerator = numerator;
 			Denominator = denominator;
-			Numerator = numerator;
+		    Precision = 80;
 			CutFraction ();
 		}
 
@@ -119,10 +121,6 @@ namespace big_numbers
 				return Numerator.ToString ();
 			return String.Format ("({0}/{1})", Numerator, Denominator);
 		}
-		public string printDecimal()
-		{
-			return "";
-		}
 		public static bool operator ==(LargeNumber n1, LargeNumber n2)
 		{
 			return n1.Numerator * n2.Denominator == n2.Numerator * n1.Denominator;
@@ -147,11 +145,33 @@ namespace big_numbers
 		{
 			return n1.Numerator * n2.Denominator != n2.Numerator * n1.Denominator;
 		}
-		public string printDecimal()
+		public string GetDecimalString()
 		{
-
+		    StringBuilder result = new StringBuilder();
+            result.Append((Numerator/Denominator).ToString());
+		    result.Append(".");
+		    BigInteger modus = Numerator % Denominator;
+		    int i = 0;
+		    bool isComplete = false;
+            /////////////////////////////////////////////////////////////
+		    while (i < Precision && modus != 0)
+		    {
+		        if (modus < Denominator)
+		        {
+		            modus *= 10;
+		        }
+		        while (modus < Denominator)
+		        {
+		            modus *= 10;
+		            result.Append("0");
+		        }
+		        result.Append((modus/Denominator).ToString());
+		        modus = modus % Denominator;
+                i++;
+		    }
+		    /////////////////////////////////////////////////////////////
+		    return result.ToString();
 		}
-		//todo beskonechnaya desyatichnaya drobj
 	}
 }
 
