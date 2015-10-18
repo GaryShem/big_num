@@ -1,0 +1,5 @@
+/home/fwiffo/Documents/programming/progs/Csharp/big_numbers/big_numbers/obj/x86/Debug/.NETFramework,Version=v4.5.AssemblyAttribute.cs
+/home/fwiffo/Documents/programming/progs/Csharp/big_numbers/big_numbers/bin/Debug/big_numbers.exe.mdb
+/home/fwiffo/Documents/programming/progs/Csharp/big_numbers/big_numbers/bin/Debug/big_numbers.exe
+/home/fwiffo/Documents/programming/progs/Csharp/big_numbers/big_numbers/obj/x86/Debug/big_numbers.exe
+/home/fwiffo/Documents/programming/progs/Csharp/big_numbers/big_numbers/obj/x86/Debug/big_numbers.exe.mdb
