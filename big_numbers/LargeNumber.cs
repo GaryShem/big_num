@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Numerics;
 using System.Text;
 
@@ -147,14 +148,15 @@ namespace big_numbers
 		}
 		public string GetDecimalString()
 		{
-		    StringBuilder result = new StringBuilder();
-            result.Append((Numerator/Denominator).ToString());
-		    result.Append(".");
+		    StringBuilder result = new StringBuilder((Numerator/Denominator).ToString());
+            List<Tuple<string, BigInteger>> fractionList = new List<Tuple<string, BigInteger>>();
+		    StringBuilder fractionString = new StringBuilder(".");
 		    BigInteger modus = Numerator % Denominator;
+
 		    int i = 0;
-		    bool isComplete = false;
+		    bool isPeriod = false;
             /////////////////////////////////////////////////////////////
-		    while (i < Precision && modus != 0)
+		    while (i < Precision && modus != 0 && !isPeriod)
 		    {
 		        if (modus < Denominator)
 		        {
@@ -162,13 +164,35 @@ namespace big_numbers
 		        }
 		        while (modus < Denominator)
 		        {
+		            fractionList.Add(new Tuple<string, BigInteger>("0", modus));
 		            modus *= 10;
-		            result.Append("0");
 		        }
-		        result.Append((modus/Denominator).ToString());
-		        modus = modus % Denominator;
-                i++;
+		        string currentDigit = (modus/Denominator).ToString();
+		        BigInteger currentModus = modus;
+		        for (int j = 0; j < fractionList.Count; j++)
+		        {
+		            if (modus == fractionList[j].Item2)
+		            {
+		                isPeriod = true;
+                        Tuple<string, BigInteger> leftParentheses = new Tuple<string, BigInteger>("(", 0);
+                        Tuple<string, BigInteger> rightParentheses = new Tuple<string, BigInteger>(")", 0);
+                        fractionList.Insert(j, leftParentheses);
+		                fractionList.Add(rightParentheses);
+		                break;
+		            }
+		        }
+                if (!isPeriod)
+		        {
+		            fractionList.Add(new Tuple<string, BigInteger>(currentDigit, currentModus));
+		            modus = modus%Denominator;
+		        }
+		        i++;
 		    }
+		    foreach (Tuple<string, BigInteger> digit in fractionList)
+		    {
+		        fractionString.Append(digit.Item1);
+		    }
+		    result.Append(fractionString);
 		    /////////////////////////////////////////////////////////////
 		    return result.ToString();
 		}

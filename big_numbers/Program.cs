@@ -6,11 +6,9 @@ namespace big_numbers
 	{
 		public static void Main (string[] args)
 		{
-			LargeNumber n1 = new LargeNumber (10, 3);
+			LargeNumber n1 = new LargeNumber (7, 19);
 		    Console.WriteLine(n1);
 			Console.WriteLine (n1.GetDecimalString());
-
-		    Console.ReadKey();
 		}
 	}
 }
